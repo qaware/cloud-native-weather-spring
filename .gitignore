@@ -1,9 +1,13 @@
 .dccache
+.DS_Store
 
 target/
 build/
+out/
 
 .idea/
 .vscode/
 .project
 .classpath
+
+*.iml
