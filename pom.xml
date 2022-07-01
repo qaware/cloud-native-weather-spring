@@ -8,11 +8,11 @@
         <version>2.7.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>de.qaware</groupId>
-    <artifactId>SpringBootWeather</artifactId>
+    <groupId>de.qaware.cloud-native</groupId>
+    <artifactId>cloud-native-weather-spring</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>SpringBootWeather</name>
-    <description>SpringBootWeather</description>
+    <name>Cloud-native-weather-spring</name>
+    <description>Spring Weather application according to cloud native concepts</description>
     <properties>
         <java.version>17</java.version>
     </properties>

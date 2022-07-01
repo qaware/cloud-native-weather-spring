@@ -14,7 +14,7 @@ services:
   app:
     depends_on:
      - db
-    build: .
+    build: SpringBootWeather
     ports:
      - "${APP_LOCAL_PORT}:${APP_DOCKER_PORT}"
     environment:
