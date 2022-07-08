@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.sql.Date;
 import java.time.Instant;
@@ -35,13 +36,19 @@ public class WeatherService implements ApplicationContextAware {
             return findMostRecentData(weatherForCity).toString();
         } else {
             // weather must be retrieved from OpenWeatherMap
-            Weather weather = new Weather();
-            weather.setCity(city);
-            weather.setWeather(connector.getWeather(city));
-            weather.setDate(Date.from(Instant.now()));
-            logger.info(String.format("Weather for %s retrieved form OpenWeatherMap!", city));
-            weatherRepository.save(weather);
-            return weather.toString();
+            try {
+                Weather weather = new Weather();
+                weather.setCity(city);
+                weather.setWeather(connector.getWeather(city));
+                weather.setDate(Date.from(Instant.now()));
+                logger.info(String.format("Weather for %s retrieved form OpenWeatherMap!", city));
+                weatherRepository.save(weather);
+                return weather.toString();
+            }
+            catch(HttpClientErrorException e) {
+                return "No current weather data!";
+            }
+
         }
     }
 
