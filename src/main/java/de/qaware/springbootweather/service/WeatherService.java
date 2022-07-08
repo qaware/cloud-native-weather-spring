@@ -1,12 +1,11 @@
 package de.qaware.springbootweather.service;
 
 import de.qaware.springbootweather.model.Weather;
-import de.qaware.springbootweather.provider.WeatherProvider;
+import de.qaware.springbootweather.openWeather.OpenWeatherConnector;
 import de.qaware.springbootweather.repository.WeatherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -25,26 +24,24 @@ public class WeatherService implements ApplicationContextAware {
     @Autowired
     private WeatherRepository weatherRepository;
 
+    @Autowired
+    private OpenWeatherConnector connector;
+
     public String findWeatherByCity(String city) {
-        try {
-            // First look if the provider gives information to the cities weather
-            WeatherProvider provider = applicationContext.getBean(city, WeatherProvider.class);
+        Iterable<Weather> weatherForCity = weatherRepository.findWeatherByCity(city);
+        if (weatherForCity.iterator().hasNext()) {
+            // weather is stored in the database
+            logger.info(String.format("Weather for %s could be retrieved from the database!", city));
+            return findMostRecentData(weatherForCity).toString();
+        } else {
+            // weather must be retrieved from OpenWeatherMap
             Weather weather = new Weather();
             weather.setCity(city);
-            weather.setWeather(provider.getWeather());
+            weather.setWeather(connector.getWeather(city));
             weather.setDate(Date.from(Instant.now()));
-            logger.info(String.format("Weather for %s successfully retrieved from the provider!", city));
+            logger.info(String.format("Weather for %s retrieved form OpenWeatherMap!", city));
+            weatherRepository.save(weather);
             return weather.toString();
-        } catch(NoSuchBeanDefinitionException e) {
-            // In case the provider does not give information, the database is used
-            Iterable<Weather> weatherForCity = weatherRepository.findWeatherByCity(city);
-            if (weatherForCity.iterator().hasNext()) {
-                logger.info(String.format("Weather for %s could be retrieved from the database!", city));
-                return findMostRecentData(weatherForCity).toString();
-            } else {
-                // If the database has no information either, the weather is declared unknown.
-                return String.format("There is no weather information for %s at the moment", city);
-            }
         }
     }
 
