@@ -13,7 +13,7 @@ RUN ./mvnw package -DskipTests
 
 
 # base image
-FROM openjdk:17
+FROM gcr.io/distroless/java17-debian11
 
 # port
 EXPOSE 8080
@@ -22,4 +22,4 @@ EXPOSE 8080
 COPY --from=builder /spring/target/cloud-native-weather-spring-0.0.1-SNAPSHOT.jar springbootweather.jar
 
 # entry
-ENTRYPOINT ["java", "-jar", "springbootweather.jar"]
+CMD ["springbootweather.jar"]
