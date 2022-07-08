@@ -2,12 +2,8 @@
 
 name: CI-SPRING-BOOT
 
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push events but only for changes in the SpringBootWeather folder
-  push:
-    paths:
-      - 'applications/SpringBootWeather/**'
+# Workflow will run, when new code is pushed to the repository
+on: [push]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -33,6 +29,7 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
 
+  # Uses the Dockerfile and docker-compose.yml to check if they are working and the application will be containerized.
   containerize:
     runs-on: ubuntu-latest
 
