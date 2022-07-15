@@ -32,7 +32,7 @@ public class WeatherService implements ApplicationContextAware {
         Iterable<Weather> weatherForCity = weatherRepository.findWeatherByCity(city);
         if (weatherForCity.iterator().hasNext()) {
             // weather is stored in the database
-            logger.info(String.format("Weather for %s could be retrieved from the database!", city));
+            logger.info(String.format("Weather for city '%s' retrieved from the database", city));
             return findMostRecentData(weatherForCity).toString();
         } else {
             // weather must be retrieved from OpenWeatherMap
@@ -41,11 +41,12 @@ public class WeatherService implements ApplicationContextAware {
                 weather.setCity(city);
                 weather.setWeather(connector.getWeather(city));
                 weather.setDate(Date.from(Instant.now()));
-                logger.info(String.format("Weather for %s retrieved form OpenWeatherMap!", city));
+                logger.info(String.format("Weather for '%s' retrieved form OpenWeatherMap", city));
                 weatherRepository.save(weather);
                 return weather.toString();
             }
             catch(HttpClientErrorException e) {
+                logger.warn(String.format("City '%s' does not exist or has no weather data", city));
                 return "No current weather data!";
             }
 
@@ -72,24 +73,25 @@ public class WeatherService implements ApplicationContextAware {
         weatherData.setWeather(weather);
         weatherData.setDate(Date.from(Instant.now()));
         weatherData = weatherRepository.save(weatherData);
-        logger.info(String.format("Added weather data with id %s successfully", weatherData.getId()));
+        logger.info(String.format("Added weather data: [%s, %s, %s, %s] successfully",
+                weatherData.getId(), weatherData.getCity(), weatherData.getWeather(), weatherData.getDate()));
         return weatherData.getId().toString();
     }
 
     public String deleteWeather(Integer id) {
         weatherRepository.deleteWeatherById(id);
-        logger.info(String.format("Deleted weather with id %s", id));
+        logger.info(String.format("Deleted weather data with id: '%s'", id));
         return "Deleted successfully";
     }
 
     public Weather getWeather(Integer id) {
-        logger.info(String.format("Retrieved weather with id %s", id));
+        logger.info(String.format("Retrieved weather data with id '%s'", id));
         return weatherRepository.findWeatherById(id);
     }
 
     public Iterable<Weather> listWeather() {
         Iterable<Weather> weatherData = weatherRepository.findAll();
-        logger.info("Retrieved all weather data from the database.");
+        logger.info("Retrieved all weather data from the database");
         return weatherData;
     }
 
