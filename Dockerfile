@@ -19,7 +19,7 @@ FROM gcr.io/distroless/java17-debian11
 EXPOSE 8080
 
 # jar file
-COPY --from=builder /spring/target/cloud-native-weather-spring-0.0.1-SNAPSHOT.jar springbootweather.jar
+COPY --from=builder /spring/target/cloud-native-weather-spring.jar cloud-native-weather-spring.jar
 
 # entry
-CMD ["springbootweather.jar"]
+CMD ["cloud-native-weather-spring.jar"]
