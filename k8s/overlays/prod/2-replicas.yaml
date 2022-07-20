@@ -1,8 +1,6 @@
-# Db deployment patch
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
-  name: db
+  name: weather-service
 spec:
   replicas: 2

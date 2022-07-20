@@ -1,5 +1,28 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+commonLabels:
+  env: dev
+
 resources:
-  - ../../base
+  # you can also specify a Git repo URL here
+  - ../../base/
+  - database-deployment.yaml
+  - database-service.yaml
+
+configMapGenerator:
+  - name: database-configmap
+    behavior: merge
+    literals:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://weather-database:5432/weather
+      - POSTGRES_HOST=weather-database
+      - POSTGRES_DB=weather
+
+secretGenerator:
+  - name: database-secrets
+    behavior: merge
+    literals:
+      - POSTGRES_USER=spring
+      - SPRING_DATASOURCE_USERNAME=spring
+      - POSTGRES_PASSWORD=1qay2wsx
+      - SPRING_DATASOURCE_PASSWORD=1qay2wsx

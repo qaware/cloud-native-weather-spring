@@ -1,8 +1,0 @@
-# App deployment patch
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  creationTimestamp: null
-  name: app
-spec:
-  replicas: 3
