@@ -24,7 +24,7 @@ class SpringBootWeatherApplicationTests extends BaseIntegrationTest {
 
         // Assertions:
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).contains("The weather in 'Rosenheim' is currently: ");
+        assertThat(response.getBody()).contains("{\"city\":\"Rosenheim\",\"weather\":");
     }
 
     @Test
@@ -33,7 +33,7 @@ class SpringBootWeatherApplicationTests extends BaseIntegrationTest {
 
         // Assertions:
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).contains("The weather in 'Munich' is currently: ");
+        assertThat(response.getBody()).contains("{\"city\":\"Munich\",\"weather\":");
     }
 
     @Test
@@ -42,6 +42,6 @@ class SpringBootWeatherApplicationTests extends BaseIntegrationTest {
 
         // Assertions:
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).contains("No current weather data!");
+        assertThat(response.getBody()).contains("{\"city\":\"Test\",\"weather\":null}");
     }
 }
