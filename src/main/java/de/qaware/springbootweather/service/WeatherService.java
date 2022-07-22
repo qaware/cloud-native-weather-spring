@@ -67,34 +67,6 @@ public class WeatherService implements ApplicationContextAware {
         return mostRecentWeather;
     }
 
-    public String addWeather(String city, String weather) {
-        Weather weatherData = new Weather();
-        weatherData.setCity(city);
-        weatherData.setWeather(weather);
-        weatherData.setDate(Date.from(Instant.now()));
-        weatherData = weatherRepository.save(weatherData);
-        logger.info(String.format("Added weather data: [%s, %s, %s, %s] successfully",
-                weatherData.getId(), weatherData.getCity(), weatherData.getWeather(), weatherData.getDate()));
-        return weatherData.getId().toString();
-    }
-
-    public String deleteWeather(Integer id) {
-        weatherRepository.deleteWeatherById(id);
-        logger.info(String.format("Deleted weather data with id: '%s'", id));
-        return "Deleted successfully";
-    }
-
-    public Weather getWeather(Integer id) {
-        logger.info(String.format("Retrieved weather data with id '%s'", id));
-        return weatherRepository.findWeatherById(id);
-    }
-
-    public Iterable<Weather> listWeather() {
-        Iterable<Weather> weatherData = weatherRepository.findAll();
-        logger.info("Retrieved all weather data from the database");
-        return weatherData;
-    }
-
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
