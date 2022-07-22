@@ -1,7 +1,9 @@
 package de.qaware.springbootweather.controller;
 
+import de.qaware.springbootweather.model.WeatherDto;
 import de.qaware.springbootweather.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +23,7 @@ public class WeatherController {
     }
 
     @GetMapping("/weather")
-    public String getWeather(@RequestParam(value = "city") String city) {
-        return weatherService.findWeatherByCity(city);
+    public ResponseEntity<WeatherDto> getWeather(@RequestParam(value = "city") String city) {
+        return ResponseEntity.ok(weatherService.findWeatherByCity(city));
     }
 }

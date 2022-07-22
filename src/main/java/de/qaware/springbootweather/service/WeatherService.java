@@ -1,6 +1,7 @@
 package de.qaware.springbootweather.service;
 
 import de.qaware.springbootweather.model.Weather;
+import de.qaware.springbootweather.model.WeatherDto;
 import de.qaware.springbootweather.openWeather.OpenWeatherConnector;
 import de.qaware.springbootweather.repository.WeatherRepository;
 import org.slf4j.Logger;
@@ -28,12 +29,12 @@ public class WeatherService implements ApplicationContextAware {
     @Autowired
     private OpenWeatherConnector connector;
 
-    public String findWeatherByCity(String city) {
+    public WeatherDto findWeatherByCity(String city) {
         Iterable<Weather> weatherForCity = weatherRepository.findWeatherByCity(city);
         if (weatherForCity.iterator().hasNext()) {
             // weather is stored in the database
             logger.info(String.format("Weather for city '%s' retrieved from the database", city));
-            return findMostRecentData(weatherForCity).toString();
+            return mapToDto(findMostRecentData(weatherForCity));
         } else {
             // weather must be retrieved from OpenWeatherMap
             try {
@@ -44,11 +45,13 @@ public class WeatherService implements ApplicationContextAware {
                 logger.info(String.format("Weather for '%s' retrieved form OpenWeatherMap", city));
                 weatherRepository.save(weather);
                 logger.info(String.format("Weather for '%s' saved in the database", city));
-                return weather.toString();
+                return mapToDto(weather);
             }
             catch(HttpClientErrorException e) {
                 logger.warn(String.format("City '%s' does not exist or has no weather data", city));
-                return "No current weather data!";
+                WeatherDto result = new WeatherDto();
+                result.setCity(city);
+                return result;
             }
 
         }
@@ -66,6 +69,13 @@ public class WeatherService implements ApplicationContextAware {
         }
 
         return mostRecentWeather;
+    }
+
+    private WeatherDto mapToDto(Weather data) {
+        WeatherDto result = new WeatherDto();
+        result.setCity(data.getCity());
+        result.setWeather(data.getWeather());
+        return result;
     }
 
     @Override
