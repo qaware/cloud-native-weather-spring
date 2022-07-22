@@ -43,6 +43,7 @@ public class WeatherService implements ApplicationContextAware {
                 weather.setDate(Date.from(Instant.now()));
                 logger.info(String.format("Weather for '%s' retrieved form OpenWeatherMap", city));
                 weatherRepository.save(weather);
+                logger.info(String.format("Weather for '%s' saved in the database", city));
                 return weather.toString();
             }
             catch(HttpClientErrorException e) {
