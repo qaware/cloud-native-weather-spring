@@ -36,8 +36,7 @@ jobs:
           cache: maven
 
       - name: Build with Maven
-        # TODO remove the skipTests flag
-        run: ./mvnw -B package --file pom.xml -DskipTests=true
+        run: ./mvnw -B package --file pom.xml
 
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
