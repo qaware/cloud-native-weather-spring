@@ -13,8 +13,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.sql.Date;
-import java.time.Instant;
 import java.util.Iterator;
 
 @Component
@@ -38,10 +36,7 @@ public class WeatherService implements ApplicationContextAware {
         } else {
             // weather must be retrieved from OpenWeatherMap
             try {
-                Weather weather = new Weather();
-                weather.setCity(city);
-                weather.setWeather(connector.getWeather(city));
-                weather.setDate(Date.from(Instant.now()));
+                Weather weather = connector.getWeather(city);
                 logger.info(String.format("Weather for '%s' retrieved form OpenWeatherMap", city));
                 weatherRepository.save(weather);
                 logger.info(String.format("Weather for '%s' saved in the database", city));
@@ -75,6 +70,7 @@ public class WeatherService implements ApplicationContextAware {
         WeatherDto result = new WeatherDto();
         result.setCity(data.getCity());
         result.setWeather(data.getWeather());
+        result.setTemperature(data.getTemperature());
         return result;
     }
 
