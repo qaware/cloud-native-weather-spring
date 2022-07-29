@@ -42,6 +42,6 @@ class SpringBootWeatherApplicationTests extends BaseIntegrationTest {
 
         // Assertions:
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).contains("{\"city\":\"Test\",\"weather\":null}");
+        assertThat(response.getBody()).isEqualTo("{\"city\":\"Test\",\"weather\":null,\"temperature\":null}");
     }
 }

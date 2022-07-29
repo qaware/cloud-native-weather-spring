@@ -15,6 +15,7 @@ public class Weather {
     private Integer id;
     private String city;
     private String weather;
+    private Double temperature;
     private Date date;
 
     public Integer getId() {
@@ -41,6 +42,14 @@ public class Weather {
         this.weather = weather;
     }
 
+    public Double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(Double temperature) {
+        this.temperature = temperature;
+    }
+
     public Date getDate() {
         return date;
     }
@@ -53,7 +62,8 @@ public class Weather {
     public String toString() {
         return new StringJoiner(" ")
                 .add("The weather in '" + city + "'")
-                .add("is currently: '" + weather + "'.")
+                .add("is currently: '" + weather + "'")
+                .add("and: '" + temperature + "°C'.")
                 .add("Last update: '" + date.toString() + "'")
                 .toString();
     }
