@@ -11,7 +11,7 @@ spec:
     kind: GitRepository
     name: cloud-native-weather-spring
   validation: client
-  targetNamespace: weather-spring
+  targetNamespace: default
   images:
     - name: cloud-native-weather-spring
       newName: ghcr.io/qaware/cloud-native-weather-spring # {"$imagepolicy": "flux-system:cloud-native-weather-spring:name"}
