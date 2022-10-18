@@ -15,7 +15,7 @@ spec:
   images:
     - name: cloud-native-weather-spring
       newName: ghcr.io/qaware/cloud-native-weather-spring # {"$imagepolicy": "flux-system:cloud-native-weather-spring:name"}
-      newTag: 1.0.0 # {"$imagepolicy": "flux-system:cloud-native-weather-spring:tag"}
+      newTag: 1.1.0 # {"$imagepolicy": "flux-system:cloud-native-weather-spring:tag"}
   patchesStrategicMerge:
     - apiVersion: apps/v1
       kind: Deployment
