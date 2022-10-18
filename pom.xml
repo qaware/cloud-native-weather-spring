@@ -12,7 +12,7 @@
 
     <groupId>cloud.nativ.flamewars</groupId>
     <artifactId>cloud-native-weather-spring</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     
     <name>cloud-native-weather-spring</name>
     <description>Spring Weather application according to cloud native concepts</description>
